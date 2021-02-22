@@ -6,7 +6,7 @@ import novoGasto from "./components/create-gasto.component";
 import gastoList from "./components/gastos-list.component";
 import gastoEdit from "./components/edit-gasto.component";
 
-
+//teste
 function App() {
   return (
     <Router>
