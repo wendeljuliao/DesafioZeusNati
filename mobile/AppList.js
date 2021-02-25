@@ -9,19 +9,18 @@ export default function AppList({ route, navigation }) {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        // Database.getItems().then(items => setItems(items));
-        axios.get('http://172.18.9.221:5000/gastos')
+        //Database.getItems().then(items => setItems(items));
+        axios.get('http://192.168.15.139:5000/gastos')
             .then(items =>
                 setItems(items.data)
             )
 
     }, [route]);
 
-
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
-            <Text style={styles.title}>Lista de Compras</Text>
+            <Text style={styles.title}>Lista de Gastos</Text>
             <ScrollView
                 style={styles.scrollContainer}
                 contentContainerStyle={styles.itemsContainer}>

@@ -7,15 +7,17 @@ export default function AppItem(props) {
     async function handleEditPress() {
         // const item = await Database.getItem(props.id);
         // props.navigation.navigate("AppForm", item);
-        
-        axios.get('http://172.18.9.221:5000/gastos/' + props.id)
-            .then(response => 
+
+        axios.get('http://192.168.15.139:5000/gastos/' + props.id)
+            .then(response =>
                 props.navigation.navigate("AppForm", {
+                    id: props.id,
                     username: response.data.username,
                     date: response.data.date
                 })
 
             )
+        
 
     }
 
@@ -33,7 +35,7 @@ export default function AppItem(props) {
                     text: "Sim", onPress: () => {
                         // Database.deleteItem(props.id)
                         //     .then(response => props.navigation.navigate("AppList", { id: props.id }));
-                        axios.delete('http://172.18.9.221:5000/gastos/' + props.id)
+                        axios.delete('http://192.168.15.139:5000/gastos/' + props.id)
                             .then(response => props.navigation.navigate("AppList", { id: props.id }));
 
                     }

@@ -1,32 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Button } from 'react-native';
 import Database from './Database';
 import axios from 'axios'
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 export default function AppForm({ route, navigation }) {
-    const id = route.params ? route.params.id : undefined;
+    const [id, setId] = useState(undefined);
     const [username, setUsername] = useState('');
     const [date, setDate] = useState('');
+    const [date2, setDate2] = useState(new Date())
+    const [show, setShow] = useState(false);
+
 
     useEffect(() => {
         if (!route.params) return;
+        setId(route.params.id)
         setUsername(route.params.username);
         setDate(route.params.date.toString());
+        
     }, [route])
 
     function handleDescriptionChange(username) { setUsername(username); }
     function handleQuantityChange(date) { setDate(date); }
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date2;
+        setDate2(currentDate);
+        setShow(false)
+      };
+
+      const showDatepicker = () => {
+        setShow(true)
+      };
+
     async function handleButtonPress() {
         const listItem = { username: Number(username), date: date };
         // Database.saveItem(listItem, id)
         //     .then(response => navigation.navigate("AppList", listItem));
-        axios.post('http://172.18.9.221:5000/gastos/add', listItem)
-            .then(res => console.log(res.data));
+        if (id === undefined) {
+            axios.post('http://192.168.15.139:5000/gastos/add', listItem)
+                .then(res => navigation.navigate("AppList", listItem));
+        } else {
+            axios.post('http://192.168.15.139:5000/gastos/update/' + id, listItem)
+                .then(res => navigation.navigate("AppList", listItem));
+        }
+        setId(undefined)
+        setUsername('');
+        setDate('');
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Item para comprar</Text>
+            <Text style={styles.title}>Adicionar gastos</Text>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
@@ -41,7 +66,21 @@ export default function AppForm({ route, navigation }) {
                     placeholder="Digite a data"
                     keyboardType={'numeric'}
                     clearButtonMode="always"
-                    value={date.toString()} />
+                    value={date2.toString()}
+                />
+                <Button onPress={showDatepicker} title="Show date picker!" />
+                {show && (<DateTimePicker
+                    testID="dateTimePicker"
+                    value={date2}
+                    mode="date"
+                    is24Hour={false}
+                    display="spinner"
+                    onChange={onChange}
+                    
+                    
+                />
+                )}
+
                 <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                     <Text style={styles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
