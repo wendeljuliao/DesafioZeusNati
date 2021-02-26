@@ -9,8 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 export default function AppForm({ route, navigation }) {
     const [id, setId] = useState(undefined);
     const [username, setUsername] = useState('');
-    const [date, setDate] = useState('');
-    const [date2, setDate2] = useState(new Date())
+    const [date, setDate] = useState(new Date())
     const [show, setShow] = useState(false);
 
 
@@ -18,36 +17,36 @@ export default function AppForm({ route, navigation }) {
         if (!route.params) return;
         setId(route.params.id)
         setUsername(route.params.username);
-        setDate(route.params.date.toString());
-        
+        setDate(new Date(route.params.date));
+
     }, [route])
 
     function handleDescriptionChange(username) { setUsername(username); }
-    function handleQuantityChange(date) { setDate(date); }
+    //function handleQuantityChange(date) { setDate(date); }
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date2;
-        setDate2(currentDate);
+        const currentDate = selectedDate || date;
+        setDate(currentDate);
         setShow(false)
-      };
+    };
 
-      const showDatepicker = () => {
+    const showDatepicker = () => {
         setShow(true)
-      };
+    };
 
     async function handleButtonPress() {
-        const listItem = { username: Number(username), date: date };
+        const listItem = { username: Number(username), date: date.toString() };
         // Database.saveItem(listItem, id)
         //     .then(response => navigation.navigate("AppList", listItem));
         if (id === undefined) {
-            axios.post('http://192.168.15.139:5000/gastos/add', listItem)
+            axios.post('http://172.18.9.221:5000/gastos/add', listItem)
                 .then(res => navigation.navigate("AppList", listItem));
         } else {
-            axios.post('http://192.168.15.139:5000/gastos/update/' + id, listItem)
+            axios.post('http://172.18.9.221:5000/gastos/update/' + id, listItem)
                 .then(res => navigation.navigate("AppList", listItem));
         }
         setId(undefined)
         setUsername('');
-        setDate('');
+
     }
     return (
         <View style={styles.container}>
@@ -60,24 +59,24 @@ export default function AppForm({ route, navigation }) {
                     keyboardType={'numeric'}
                     clearButtonMode="always"
                     value={username.toString()} />
-                <TextInput
+                {/* <TextInput
                     style={styles.input}
-                    onChangeText={handleQuantityChange}
+                    onChangeText={onChange}
                     placeholder="Digite a data"
                     keyboardType={'numeric'}
                     clearButtonMode="always"
-                    value={date2.toString()}
-                />
-                <Button onPress={showDatepicker} title="Show date picker!" />
+                    value={Date.parse(date).toString()}
+                /> */}
+                <Button backgroundColor='#000000' onPress={showDatepicker} title="Escolha a data do gasto!" />
+
                 {show && (<DateTimePicker
                     testID="dateTimePicker"
-                    value={date2}
+                    value={date}
                     mode="date"
                     is24Hour={false}
-                    display="spinner"
+                    display="calendar"
                     onChange={onChange}
-                    
-                    
+
                 />
                 )}
 
@@ -93,7 +92,7 @@ export default function AppForm({ route, navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#D93600',
+        backgroundColor: '#000000',
         alignItems: 'center',
     },
     title: {

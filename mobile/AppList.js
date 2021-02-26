@@ -10,7 +10,7 @@ export default function AppList({ route, navigation }) {
 
     useEffect(() => {
         //Database.getItems().then(items => setItems(items));
-        axios.get('http://192.168.15.139:5000/gastos')
+        axios.get('http://172.18.9.221:5000/gastos')
             .then(items =>
                 setItems(items.data)
             )
@@ -21,11 +21,12 @@ export default function AppList({ route, navigation }) {
         <View style={styles.container}>
             <StatusBar style="light" />
             <Text style={styles.title}>Lista de Gastos</Text>
+            
             <ScrollView
                 style={styles.scrollContainer}
                 contentContainerStyle={styles.itemsContainer}>
                 {items.map(item => {
-                    return <AppItem key={item._id} id={item._id} item={item.date.substring(0,10) + '  de ' + item.username} navigation={navigation} />
+                    return <AppItem key={item._id} id={item._id} item={item.date.substring(0,10) + '   R$ ' + item.username} navigation={navigation} />
                 })}
             </ScrollView>
         </View>
@@ -36,7 +37,7 @@ export default function AppList({ route, navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#D93600',
+        backgroundColor: '#000000',
         alignItems: 'center',
         justifyContent: 'center'
     },
