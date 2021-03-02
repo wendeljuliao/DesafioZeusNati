@@ -96,7 +96,7 @@ export default class GastosList extends Component {
         <table className="table">
           <thead className="thead-light">
             <tr>
-              <th width="25%">Valor</th>
+              <th width="25%">Valor (R$)</th>
               <th width="25%">Data</th>
               <th width="25%">Ações</th>
               <th width="25%">
@@ -121,7 +121,7 @@ export default class GastosList extends Component {
             {this.GastosList()}
           </tbody>
           <tr>
-            <th>Total:{this.somaMes()}</th>
+            <th>Total: R$ {this.somaMes()}</th>
           </tr>
         </table>
         {/* <select class="form-control" value={this.state.dataEscolhida} onChange={this.handleChange}>
