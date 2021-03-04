@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { DataGrid } from '@material-ui/data-grid';
 
 import "./gastos-list.component.css"
 
@@ -23,9 +22,10 @@ export default class GastosList extends Component {
 
     this.deleteGasto = this.deleteGasto.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleChangeAno = this.handleChangeAno.bind(this)
     this.somaMes = this.somaMes.bind(this)
 
-    this.state = { gastos: [], dataEscolhida: '01' };
+    this.state = { gastos: [], dataEscolhida: '01', anoEscolhido: '2021' };
 
   }
 
@@ -40,20 +40,24 @@ export default class GastosList extends Component {
   }
 
   handleChange(event) {
-
     this.setState({ dataEscolhida: event.target.value });
+  }
 
+  handleChangeAno(event) {
+    this.setState({ anoEscolhido: event.target.value });
   }
 
 
 
   deleteGasto(id) {
-    axios.delete('http://localhost:5000/gastos/' + id)
-      .then(response => { console.log(response.data) });
+    if (window.confirm('Você tem certeza que quer deletar?')) {
+      axios.delete('http://localhost:5000/gastos/' + id)
+        .then(response => { console.log(response.data) });
 
-    this.setState({
-      gastos: this.state.gastos.filter(el => el._id !== id)
-    })
+      this.setState({
+        gastos: this.state.gastos.filter(el => el._id !== id)
+      })
+    }
   }
 
   /* GastosList() {
@@ -64,7 +68,7 @@ export default class GastosList extends Component {
 
   GastosList() {
     return this.state.gastos.map(currentGasto => {
-      if (currentGasto.date.substring(5, 7) === this.state.dataEscolhida) {
+      if (currentGasto.date.substring(5, 7) === this.state.dataEscolhida && currentGasto.date.substring(0, 4) === this.state.anoEscolhido) {
         return <Gasto gasto={currentGasto} deleteGasto={this.deleteGasto} key={currentGasto._id} />;
       }
     })
@@ -81,7 +85,7 @@ export default class GastosList extends Component {
   somaMes() {
     let soma = 0;
     this.state.gastos.forEach(currentGasto => {
-      if (currentGasto.date.substring(5, 7) === this.state.dataEscolhida) {
+      if (currentGasto.date.substring(5, 7) === this.state.dataEscolhida && currentGasto.date.substring(0, 4) === this.state.anoEscolhido) {
         soma += currentGasto.username
       }
     })
@@ -99,7 +103,17 @@ export default class GastosList extends Component {
               <th width="25%">Valor (R$)</th>
               <th width="25%">Data</th>
               <th width="25%">Ações</th>
-              <th width="25%">
+              <th>Ano</th>
+              <th width="15%">
+                
+                <select class="form-control" value={this.state.anoEscolhido} onChange={this.handleChangeAno}>
+                  <option>2020</option>
+                  <option>2021</option>
+                </select>
+              </th>
+              <th>Mês</th>
+              <th width="10%">
+
                 <select class="form-control" value={this.state.dataEscolhida} onChange={this.handleChange}>
                   <option>01</option>
                   <option>02</option>

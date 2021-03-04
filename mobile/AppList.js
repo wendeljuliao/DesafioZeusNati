@@ -9,6 +9,7 @@ import { Picker } from '@react-native-picker/picker';
 export default function AppList({ route, navigation }) {
     const [items, setItems] = useState([]);
     const [selectedLanguage, setSelectedLanguage] = useState();
+    const [selectedAno, setSelectedAno] = useState();
     var soma = 0
     useEffect(() => {
         //Database.getItems().then(items => setItems(items));
@@ -24,33 +25,48 @@ export default function AppList({ route, navigation }) {
         <View style={styles.container}>
             <StatusBar style="light" />
             <Text style={styles.title}>Lista de Gastos</Text>
-            <TouchableOpacity style={styles.buttonSelect}>
-                <Picker
-                    style={{ height: 50, width: 100, justifyContent: 'center' }}
-                    selectedValue={selectedLanguage}
-                    onValueChange={(itemValue, itemIndex) =>
-                        setSelectedLanguage(itemValue)
-                    }>
-                    <Picker.Item label="01" value="01" />
-                    <Picker.Item label="02" value="02" />
-                    <Picker.Item label="03" value="03" />
-                    <Picker.Item label="04" value="04" />
-                    <Picker.Item label="05" value="05" />
-                    <Picker.Item label="06" value="06" />
-                    <Picker.Item label="07" value="07" />
-                    <Picker.Item label="08" value="08" />
-                    <Picker.Item label="09" value="09" />
-                    <Picker.Item label="10" value="10" />
-                    <Picker.Item label="11" value="11" />
-                    <Picker.Item label="12" value="12" />
-                </Picker>
-            </TouchableOpacity>
+            <View style={styles.selectedDate}>
+                <TouchableOpacity style={styles.buttonSelect}>
+                    <Picker
+                        style={{ height: 50, width: 100, justifyContent: 'center' }}
+                        selectedValue={selectedLanguage}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedLanguage(itemValue)
+                        }>
+                        <Picker.Item label="01" value="01" />
+                        <Picker.Item label="02" value="02" />
+                        <Picker.Item label="03" value="03" />
+                        <Picker.Item label="04" value="04" />
+                        <Picker.Item label="05" value="05" />
+                        <Picker.Item label="06" value="06" />
+                        <Picker.Item label="07" value="07" />
+                        <Picker.Item label="08" value="08" />
+                        <Picker.Item label="09" value="09" />
+                        <Picker.Item label="10" value="10" />
+                        <Picker.Item label="11" value="11" />
+                        <Picker.Item label="12" value="12" />
+                    </Picker>
+                </TouchableOpacity>
+                <Text style={styles.textMesAno}>Mês</Text>
+                <TouchableOpacity style={styles.buttonSelect}>
+                    <Picker
+                        style={{ height: 50, width: 110, justifyContent: 'center' }}
+                        selectedValue={selectedAno}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedAno(itemValue)
+                        }>
+                        <Picker.Item label="2020" value="2020" />
+                        <Picker.Item label="2021" value="2021" />
+                    </Picker>
+                </TouchableOpacity>
+                <Text style={styles.textMesAno}>Ano</Text>
+            </View>
             <ScrollView
 
                 style={styles.scrollContainer}
                 contentContainerStyle={styles.itemsContainer}>
                 {items.map(item => {
-                    if (selectedLanguage === item.date.substring(5, 7)) {
+                    if (selectedLanguage === item.date.substring(5, 7) && selectedAno === item.date.substring(0, 4)) {
                         soma += item.username
                         return <AppItem key={item._id} id={item._id} item={item.date.substring(0, 10) + '   R$ ' + item.username} navigation={navigation} />
                     }
@@ -94,7 +110,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     buttonSelect: {
-        marginLeft: 20,
+        marginLeft: 7,
         height: 40,
         backgroundColor: 'white',
         borderRadius: 10,
@@ -103,6 +119,19 @@ const styles = StyleSheet.create({
         shadowOpacity: 10,
         shadowColor: '#ccc',
         alignItems: 'center',
-
+        
     },
+    selectedDate: {
+        flexDirection: 'row-reverse',
+        alignItems: 'flex-end',
+        borderBottomColor: '#CCC',
+        paddingBottom: 10,
+        marginTop: 10,
+    },
+    textMesAno: {
+        color:"white",
+        fontSize: 15,
+        marginBottom: 7,
+        marginLeft: 5
+    }
 });

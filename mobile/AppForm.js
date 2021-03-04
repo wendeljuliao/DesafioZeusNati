@@ -23,8 +23,9 @@ export default function AppForm({ route, navigation }) {
     function handleDescriptionChange(username) { setUsername(username); }
     /* function handleQuantityChange(date) { setDate(date); } */
     const onChange = (event, selectedDate) => {
+        
         const currentDate = selectedDate || date;  
-        setDate(currentDate);      
+        setDate(currentDate); 
 
     };
 
@@ -56,7 +57,6 @@ export default function AppForm({ route, navigation }) {
                     placeholder="Digite o valor"
                     keyboardType={'numeric'}
                     clearButtonMode="always"
-                   
                     value={username.toString()} />
                 {/* <TextInput
                     style={styles.input}
@@ -75,6 +75,7 @@ export default function AppForm({ route, navigation }) {
                     is24Hour={false}
                     display="default"
                     onChange={onChange}
+                    
                     
                 />
                 )}
