@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import AppList from './AppList';
 import AppForm from './AppForm';
+import AppGraficos from './AppGraficos';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -37,9 +38,14 @@ function AppTab() {
                         tabBarLabel: "Compras"
                     }}
                 />
-                <Screen name="AppForm" component={AppForm}
+                <Screen name="AppForm" component={AppForm} 
                     options={{
                         tabBarLabel: "Adicionar"
+                    }}
+                />
+                <Screen name="AppGraficos" component={AppGraficos} 
+                    options={{
+                        tabBarLabel: "Gráficos"
                     }}
                 />
             </Navigator>

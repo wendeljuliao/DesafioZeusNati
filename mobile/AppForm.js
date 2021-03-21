@@ -17,7 +17,7 @@ export default function AppForm({ route, navigation }) {
         setId(route.params.id)
         setUsername(route.params.username);
         setDate(new Date(route.params.date));
-
+        
     }, [route])
 
     function handleDescriptionChange(username) { setUsername(username); }
@@ -26,14 +26,14 @@ export default function AppForm({ route, navigation }) {
         
         const currentDate = selectedDate || date;  
         setDate(currentDate); 
-
+        setShow(false)
     };
 
     const showDatepicker = () => {
         setShow(true)
     };
 
-    async function handleButtonPress() {
+    function handleButtonPress() {
         const listItem = { username: Number(username), date: date.toString() };
         // Database.saveItem(listItem, id)
         //     .then(response => navigation.navigate("AppList", listItem));
@@ -41,6 +41,7 @@ export default function AppForm({ route, navigation }) {
             axios.post('http://192.168.15.139:5000/gastos/add', listItem)
                 .then(res => navigation.navigate("AppList", listItem));
         } else {
+            navigation.navigate("AppGraficos", listItem)
             axios.post('http://192.168.15.139:5000/gastos/update/' + id, listItem)
                 .then(res => navigation.navigate("AppList", listItem));
         }

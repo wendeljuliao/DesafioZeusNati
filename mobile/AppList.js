@@ -17,7 +17,7 @@ export default function AppList({ route, navigation }) {
             .then(items =>
                 setItems(items.data)
             )
-
+            
     }, [route]);
 
 
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     itemsContainer: {
-
         marginTop: 10,
         padding: 20,
         borderTopLeftRadius: 10,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
+import TextField from '@material-ui/core/TextField';
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class EditGasto extends Component {
@@ -18,12 +19,12 @@ export default class EditGasto extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/gastos/'+this.props.match.params.id)
+    axios.get('http://localhost:5000/gastos/' + this.props.match.params.id)
       .then(response => {
         this.setState({
           username: response.data.username,
           date: new Date(response.data.date)
-        })   
+        })
       })
       .catch(function (error) {
         console.log(error);
@@ -61,33 +62,28 @@ export default class EditGasto extends Component {
 
   render() {
     return (
-    <div>
-      <h3>Editar gasto</h3>
-      <form onSubmit={this.onSubmit}>
-        <div className="form-group"> 
-          <label>Valor: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.username}
-              onChange={this.onChangeUsername}
-              />
-        </div>
-        <div className="form-group">
-          <label>Date: </label>
-          <div>
-            <DatePicker
-              selected={this.state.date}
-              onChange={this.onChangeDate}
-            />
+      <div>
+        <h3>Editar gasto</h3>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <TextField required id="standard-required" label="Valor (R$)" defaultValue="0" value={this.state.username}
+              onChange={this.onChangeUsername} />
           </div>
-        </div>
+          <div className="form-group">
+            <label>Date: </label>
+            <div>
+              <DatePicker
+                selected={this.state.date}
+                onChange={this.onChangeDate}
+              />
+            </div>
+          </div>
 
-        <div className="form-group">
-          <input type="submit" value="Editar gasto" className="btn btn-primary" />
-        </div>
-      </form>
-    </div>
+          <div className="form-group">
+            <input type="submit" value="Editar gasto" className="btn btn-primary" />
+          </div>
+        </form>
+      </div>
     )
   }
 }
