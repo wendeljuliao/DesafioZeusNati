@@ -43,7 +43,7 @@ export default class CreateGasto extends Component {
     axios.post('http://localhost:5000/gastos/add', gasto)
       .then(res => console.log(res.data));
 
-    window.location = '/';
+    window.location = '/list';
   }
 
   render() {

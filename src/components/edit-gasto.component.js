@@ -57,7 +57,7 @@ export default class EditGasto extends Component {
     axios.post('http://localhost:5000/gastos/update/' + this.props.match.params.id, gasto)
       .then(res => console.log(res.data));
 
-    window.location = '/';
+    window.location = '/list';
   }
 
   render() {
